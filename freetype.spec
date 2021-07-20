@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xC1A60EACE707FDA5 (wl@gnu.org)
 #
 Name     : freetype
-Version  : 2.10.4
-Release  : 62
-URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz
-Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz
-Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz.sig
+Version  : 2.11.0
+Release  : 63
+URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz
+Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz
+Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : FTL GPL-2.0 GPL-2.0+ MIT Zlib
@@ -35,7 +35,7 @@ BuildRequires : zlib-dev32
 Patch1: debuginfo.patch
 
 %description
-FreeType 2.10.4
+FreeType 2.11.0
 ===============
 Homepage: https://www.freetype.org
 FreeType is a freely available software library to render fonts.
@@ -107,11 +107,11 @@ man components for the freetype package.
 
 
 %prep
-%setup -q -n freetype-2.10.4
-cd %{_builddir}/freetype-2.10.4
+%setup -q -n freetype-2.11.0
+cd %{_builddir}/freetype-2.11.0
 %patch1 -p1
 pushd ..
-cp -a freetype-2.10.4 build32
+cp -a freetype-2.11.0 build32
 popd
 
 %build
@@ -119,15 +119,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1603203748
+export SOURCE_DATE_EPOCH=1626799419
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
 %configure --disable-static --enable-freetype-config
 make  %{?_smp_mflags}  RC=
 
@@ -141,11 +141,10 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 make  %{?_smp_mflags}  RC=
 popd
 %install
-export SOURCE_DATE_EPOCH=1603203748
+export SOURCE_DATE_EPOCH=1626799419
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
-cp %{_builddir}/freetype-2.10.4/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
-cp %{_builddir}/freetype-2.10.4/docs/LICENSE.TXT %{buildroot}/usr/share/package-licenses/freetype/64b7f213ddd72695d94866a1a9532ee5b3a472a8
+cp %{_builddir}/freetype-2.11.0/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
 pushd ../build32/
 %make_install32 RC=
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -196,6 +195,7 @@ popd
 /usr/include/freetype2/freetype/ftincrem.h
 /usr/include/freetype2/freetype/ftlcdfil.h
 /usr/include/freetype2/freetype/ftlist.h
+/usr/include/freetype2/freetype/ftlogging.h
 /usr/include/freetype2/freetype/ftlzw.h
 /usr/include/freetype2/freetype/ftmac.h
 /usr/include/freetype2/freetype/ftmm.h
@@ -232,16 +232,15 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libfreetype.so.6
-/usr/lib64/libfreetype.so.6.17.4
+/usr/lib64/libfreetype.so.6.18.0
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libfreetype.so.6
-/usr/lib32/libfreetype.so.6.17.4
+/usr/lib32/libfreetype.so.6.18.0
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/freetype/64b7f213ddd72695d94866a1a9532ee5b3a472a8
 /usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
 
 %files man
