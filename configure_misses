@@ -1,10 +1,17 @@
 Configure miss: BROTLI
 Configure miss: BROTLI
+Configure miss: BROTLI
+Configure miss: `docwriter' Python module
 Configure miss: `docwriter' Python module
 Configure miss: `docwriter' Python module
 Configure miss: whether CFLAGS and LDFLAGS share -m32
+Configure miss: whether CFLAGS and LDFLAGS share -m32
+Configure miss: whether CFLAGS and LDFLAGS share -m64
+Configure miss: whether CFLAGS and LDFLAGS share -m64
 Configure miss: whether CFLAGS and LDFLAGS share -m64
 Configure miss: whether CFLAGS and LDFLAGS share -m64
 Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
 Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
+Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
+Configure miss: whether CFLAGS and LDFLAGS share -march=x86-64-v3
 Configure miss: whether cpp computation of bit length in ftconfig.h.in works

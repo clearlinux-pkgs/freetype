@@ -6,7 +6,7 @@
 #
 Name     : freetype
 Version  : 2.11.0
-Release  : 63
+Release  : 64
 URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz.sig
@@ -14,6 +14,7 @@ Summary  : No detailed summary available
 Group    : Development/Tools
 License  : FTL GPL-2.0 GPL-2.0+ MIT Zlib
 Requires: freetype-bin = %{version}-%{release}
+Requires: freetype-filemap = %{version}-%{release}
 Requires: freetype-lib = %{version}-%{release}
 Requires: freetype-license = %{version}-%{release}
 Requires: freetype-man = %{version}-%{release}
@@ -44,6 +45,7 @@ FreeType is a freely available software library to render fonts.
 Summary: bin components for the freetype package.
 Group: Binaries
 Requires: freetype-license = %{version}-%{release}
+Requires: freetype-filemap = %{version}-%{release}
 
 %description bin
 bin components for the freetype package.
@@ -72,10 +74,19 @@ Requires: freetype-dev = %{version}-%{release}
 dev32 components for the freetype package.
 
 
+%package filemap
+Summary: filemap components for the freetype package.
+Group: Default
+
+%description filemap
+filemap components for the freetype package.
+
+
 %package lib
 Summary: lib components for the freetype package.
 Group: Libraries
 Requires: freetype-license = %{version}-%{release}
+Requires: freetype-filemap = %{version}-%{release}
 
 %description lib
 lib components for the freetype package.
@@ -113,26 +124,29 @@ cd %{_builddir}/freetype-2.11.0
 pushd ..
 cp -a freetype-2.11.0 build32
 popd
+pushd ..
+cp -a freetype-2.11.0 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1626799419
+export SOURCE_DATE_EPOCH=1634131151
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
 %configure --disable-static --enable-freetype-config
 make  %{?_smp_mflags}  RC=
 
 pushd ../build32/
-export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export PKG_CONFIG_PATH="/usr/lib32/pkgconfig:/usr/share/pkgconfig"
 export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
@@ -140,8 +154,18 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static --enable-freetype-config --with-harfbuzz=no  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}  RC=
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --enable-freetype-config
+make  %{?_smp_mflags}  RC=
+popd
 %install
-export SOURCE_DATE_EPOCH=1626799419
+export SOURCE_DATE_EPOCH=1634131151
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
 cp %{_builddir}/freetype-2.11.0/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
@@ -153,8 +177,18 @@ pushd %{buildroot}/usr/lib32/pkgconfig
 for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
+if [ -d %{buildroot}/usr/share/pkgconfig ]
+then
+pushd %{buildroot}/usr/share/pkgconfig
+for i in *.pc ; do ln -s $i 32$i ; done
+popd
+fi
+popd
+pushd ../buildavx2/
+%make_install_v3 RC=
 popd
 %make_install RC=
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -229,10 +263,15 @@ popd
 /usr/lib32/pkgconfig/32freetype2.pc
 /usr/lib32/pkgconfig/freetype2.pc
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-freetype
+
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libfreetype.so.6
 /usr/lib64/libfreetype.so.6.18.0
+/usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
