@@ -6,7 +6,7 @@
 #
 Name     : freetype
 Version  : 2.11.0
-Release  : 64
+Release  : 65
 URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.0.tar.gz.sig
@@ -133,7 +133,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634131151
+export SOURCE_DATE_EPOCH=1634687678
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -156,16 +156,16 @@ make  %{?_smp_mflags}  RC=
 popd
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --enable-freetype-config
 make  %{?_smp_mflags}  RC=
 popd
 %install
-export SOURCE_DATE_EPOCH=1634131151
+export SOURCE_DATE_EPOCH=1634687678
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
 cp %{_builddir}/freetype-2.11.0/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
