@@ -6,7 +6,7 @@
 #
 Name     : freetype
 Version  : 2.11.1
-Release  : 66
+Release  : 67
 URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.gz.sig
@@ -127,13 +127,16 @@ popd
 pushd ..
 cp -a freetype-2.11.1 buildavx2
 popd
+pushd ..
+cp -a freetype-2.11.1 buildavx512
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1638527633
+export SOURCE_DATE_EPOCH=1638528435
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -164,8 +167,18 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --enable-freetype-config
 make  %{?_smp_mflags}  RC=
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx512/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
+%configure --disable-static --enable-freetype-config
+make  %{?_smp_mflags}  RC=
+popd
 %install
-export SOURCE_DATE_EPOCH=1638527633
+export SOURCE_DATE_EPOCH=1638528435
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
 cp %{_builddir}/freetype-2.11.1/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
@@ -187,8 +200,12 @@ popd
 pushd ../buildavx2/
 %make_install_v3 RC=
 popd
+pushd ../buildavx512/
+%make_install_v4 RC=
+popd
 %make_install RC=
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
