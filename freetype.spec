@@ -5,11 +5,11 @@
 # Source0 file verified with key 0xBE6C3AAC63AD8E3F (wl@gnu.org)
 #
 Name     : freetype
-Version  : 2.12.0
-Release  : 70
-URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.0.tar.gz
-Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.0.tar.gz
-Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.0.tar.gz.sig
+Version  : 2.12.1
+Release  : 71
+URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz
+Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz
+Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : FTL GPL-2.0 GPL-2.0+ MIT Zlib
@@ -37,7 +37,7 @@ BuildRequires : zlib-dev32
 Patch1: debuginfo.patch
 
 %description
-FreeType 2.12.0
+FreeType 2.12.1
 ===============
 Homepage: https://www.freetype.org
 FreeType is a freely available software library to render fonts.
@@ -119,17 +119,17 @@ man components for the freetype package.
 
 
 %prep
-%setup -q -n freetype-2.12.0
-cd %{_builddir}/freetype-2.12.0
+%setup -q -n freetype-2.12.1
+cd %{_builddir}/freetype-2.12.1
 %patch1 -p1
 pushd ..
-cp -a freetype-2.12.0 build32
+cp -a freetype-2.12.1 build32
 popd
 pushd ..
-cp -a freetype-2.12.0 buildavx2
+cp -a freetype-2.12.1 buildavx2
 popd
 pushd ..
-cp -a freetype-2.12.0 buildavx512
+cp -a freetype-2.12.1 buildavx512
 popd
 
 %build
@@ -137,7 +137,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1649097086
+export SOURCE_DATE_EPOCH=1651603124
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -179,10 +179,10 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  RC=
 popd
 %install
-export SOURCE_DATE_EPOCH=1649097086
+export SOURCE_DATE_EPOCH=1651603124
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
-cp %{_builddir}/freetype-2.12.0/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
+cp %{_builddir}/freetype-2.12.1/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
 pushd ../build32/
 %make_install32 RC=
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -289,13 +289,13 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libfreetype.so.6
-/usr/lib64/libfreetype.so.6.18.2
+/usr/lib64/libfreetype.so.6.18.3
 /usr/share/clear/optimized-elf/lib*
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libfreetype.so.6
-/usr/lib32/libfreetype.so.6.18.2
+/usr/lib32/libfreetype.so.6.18.3
 
 %files license
 %defattr(0644,root,root,0755)
