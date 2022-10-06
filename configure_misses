@@ -1,33 +1,22 @@
 Configure miss: BROTLI
 Configure miss: BROTLI
 Configure miss: BROTLI
-Configure miss: BROTLI
 Configure miss: `docwriter' Python module
 Configure miss: `docwriter' Python module
 Configure miss: `docwriter' Python module
-Configure miss: `docwriter' Python module
-Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: gcc options needed to detect all undeclared functions
 Configure miss: i686-generic-linux-gnu-file
 Configure miss: whether CFLAGS and LDFLAGS share -m32
 Configure miss: whether CFLAGS and LDFLAGS share -m32
-Configure miss: whether CFLAGS and LDFLAGS share -m32
 Configure miss: whether CFLAGS and LDFLAGS share -m64
 Configure miss: whether CFLAGS and LDFLAGS share -m64
 Configure miss: whether CFLAGS and LDFLAGS share -m64
 Configure miss: whether CFLAGS and LDFLAGS share -m64
-Configure miss: whether CFLAGS and LDFLAGS share -m64
-Configure miss: whether CFLAGS and LDFLAGS share -m64
-Configure miss: whether CFLAGS and LDFLAGS share -m64
-Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
 Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
 Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
 Configure miss: whether CFLAGS and LDFLAGS share -march=westmere
 Configure miss: whether CFLAGS and LDFLAGS share -march=x86-64-v3
-Configure miss: whether CFLAGS and LDFLAGS share -march=x86-64-v3
-Configure miss: whether CFLAGS and LDFLAGS share -march=x86-64-v4
-Configure miss: x86_64-generic-linux-gnu-file
 Configure miss: x86_64-generic-linux-gnu-file
 Configure miss: x86_64-generic-linux-gnu-file

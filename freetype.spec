@@ -6,7 +6,7 @@
 #
 Name     : freetype
 Version  : 2.12.1
-Release  : 77
+Release  : 78
 URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz.sig
@@ -117,16 +117,13 @@ popd
 pushd ..
 cp -a freetype-2.12.1 buildavx2
 popd
-pushd ..
-cp -a freetype-2.12.1 buildavx512
-popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656110990
+export SOURCE_DATE_EPOCH=1665089096
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -157,22 +154,12 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --enable-freetype-config
 make  %{?_smp_mflags}  RC=
 popd
-unset PKG_CONFIG_PATH
-pushd ../buildavx512/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256 -Wl,-z,x86-64-v4"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
-export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v4 -mprefer-vector-width=256"
-export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
-%configure --disable-static --enable-freetype-config
-make  %{?_smp_mflags}  RC=
-popd
 %install
-export SOURCE_DATE_EPOCH=1656110990
+export SOURCE_DATE_EPOCH=1665089096
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
-cp %{_builddir}/freetype-2.12.1/LICENSE.TXT %{buildroot}/usr/share/package-licenses/freetype/4ddaa192f25581d05cb4d3219d57c1edc76167b7
-cp %{_builddir}/freetype-2.12.1/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
+cp %{_builddir}/freetype-%{version}/LICENSE.TXT %{buildroot}/usr/share/package-licenses/freetype/4ddaa192f25581d05cb4d3219d57c1edc76167b7
+cp %{_builddir}/freetype-%{version}/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868
 pushd ../build32/
 %make_install32 RC=
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -191,12 +178,8 @@ popd
 pushd ../buildavx2/
 %make_install_v3 RC=
 popd
-pushd ../buildavx512/
-%make_install_v4 RC=
-popd
 %make_install RC=
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
-/usr/bin/elf-move.py avx512 %{buildroot}-v4 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -262,6 +245,7 @@ popd
 /usr/include/freetype2/freetype/tttables.h
 /usr/include/freetype2/freetype/tttags.h
 /usr/include/freetype2/ft2build.h
+/usr/lib64/glibc-hwcaps/x86-64-v3/libfreetype.so
 /usr/lib64/libfreetype.so
 /usr/lib64/pkgconfig/freetype2.pc
 /usr/share/aclocal/*.m4
@@ -274,12 +258,8 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libfreetype.so
 /usr/lib64/glibc-hwcaps/x86-64-v3/libfreetype.so.6
 /usr/lib64/glibc-hwcaps/x86-64-v3/libfreetype.so.6.18.3
-/usr/lib64/glibc-hwcaps/x86-64-v4/libfreetype.so
-/usr/lib64/glibc-hwcaps/x86-64-v4/libfreetype.so.6
-/usr/lib64/glibc-hwcaps/x86-64-v4/libfreetype.so.6.18.3
 /usr/lib64/libfreetype.so.6
 /usr/lib64/libfreetype.so.6.18.3
 
