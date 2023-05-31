@@ -7,7 +7,7 @@
 #
 Name     : freetype
 Version  : 2.13.0
-Release  : 83
+Release  : 84
 URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.0.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.0.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.0.tar.gz.sig
@@ -128,7 +128,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683313957
+export SOURCE_DATE_EPOCH=1685504983
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -170,7 +170,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  RC=
 popd
 %install
-export SOURCE_DATE_EPOCH=1683313957
+export SOURCE_DATE_EPOCH=1685504983
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
 cp %{_builddir}/freetype-%{version}/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868 || :
@@ -208,8 +208,6 @@ popd
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libfreetype.so
-/V4/usr/lib64/libfreetype.so
 /usr/include/freetype2/freetype/config/ftconfig.h
 /usr/include/freetype2/freetype/config/ftheader.h
 /usr/include/freetype2/freetype/config/ftmodule.h
@@ -277,9 +275,7 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libfreetype.so.6
 /V3/usr/lib64/libfreetype.so.6.19.0
-/V4/usr/lib64/libfreetype.so.6
 /V4/usr/lib64/libfreetype.so.6.19.0
 /usr/lib64/libfreetype.so.6
 /usr/lib64/libfreetype.so.6.19.0
