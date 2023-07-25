@@ -7,7 +7,7 @@
 #
 Name     : freetype
 Version  : 2.13.1
-Release  : 85
+Release  : 86
 URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.1.tar.gz
 Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.1.tar.gz
 Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.1.tar.gz.sig
@@ -18,6 +18,7 @@ Requires: freetype-bin = %{version}-%{release}
 Requires: freetype-lib = %{version}-%{release}
 Requires: freetype-license = %{version}-%{release}
 Requires: freetype-man = %{version}-%{release}
+BuildRequires : brotli-dev
 BuildRequires : buildreq-configure
 BuildRequires : bzip2-dev
 BuildRequires : bzip2-dev32
@@ -128,7 +129,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1687814024
+export SOURCE_DATE_EPOCH=1690315481
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -146,7 +147,8 @@ export ASFLAGS="${ASFLAGS}${ASFLAGS:+ }--32"
 export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
-%configure --disable-static --enable-freetype-config --with-harfbuzz=no  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+%configure --disable-static --enable-freetype-config --with-harfbuzz=no \
+--with-brotli=no  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}  RC=
 popd
 unset PKG_CONFIG_PATH
@@ -170,7 +172,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  RC=
 popd
 %install
-export SOURCE_DATE_EPOCH=1687814024
+export SOURCE_DATE_EPOCH=1690315481
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
 cp %{_builddir}/freetype-%{version}/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868 || :

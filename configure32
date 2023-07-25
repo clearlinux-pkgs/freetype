@@ -1,1 +1,2 @@
 --with-harfbuzz=no
+--with-brotli=no
