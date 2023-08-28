@@ -6,11 +6,11 @@
 # Source0 file verified with key 0xBE6C3AAC63AD8E3F (wl@gnu.org)
 #
 Name     : freetype
-Version  : 2.13.1
-Release  : 86
-URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.1.tar.gz
-Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.1.tar.gz
-Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.1.tar.gz.sig
+Version  : 2.13.2
+Release  : 87
+URL      : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.gz
+Source0  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.gz
+Source1  : https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.13.2.tar.gz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : FTL GPL-2.0 GPL-2.0+ MIT Zlib
@@ -18,7 +18,6 @@ Requires: freetype-bin = %{version}-%{release}
 Requires: freetype-lib = %{version}-%{release}
 Requires: freetype-license = %{version}-%{release}
 Requires: freetype-man = %{version}-%{release}
-BuildRequires : brotli-dev
 BuildRequires : buildreq-configure
 BuildRequires : bzip2-dev
 BuildRequires : bzip2-dev32
@@ -39,7 +38,7 @@ BuildRequires : zlib-dev32
 Patch1: debuginfo.patch
 
 %description
-FreeType 2.13.1
+FreeType 2.13.2
 ===============
 Homepage: https://www.freetype.org
 FreeType is a freely available software library to render fonts.
@@ -111,17 +110,17 @@ man components for the freetype package.
 
 
 %prep
-%setup -q -n freetype-2.13.1
-cd %{_builddir}/freetype-2.13.1
+%setup -q -n freetype-2.13.2
+cd %{_builddir}/freetype-2.13.2
 %patch -P 1 -p1
 pushd ..
-cp -a freetype-2.13.1 build32
+cp -a freetype-2.13.2 build32
 popd
 pushd ..
-cp -a freetype-2.13.1 buildavx2
+cp -a freetype-2.13.2 buildavx2
 popd
 pushd ..
-cp -a freetype-2.13.1 buildavx512
+cp -a freetype-2.13.2 buildavx512
 popd
 
 %build
@@ -129,7 +128,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1690315481
+export SOURCE_DATE_EPOCH=1693259332
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -172,7 +171,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v4"
 make  %{?_smp_mflags}  RC=
 popd
 %install
-export SOURCE_DATE_EPOCH=1690315481
+export SOURCE_DATE_EPOCH=1693259332
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/freetype
 cp %{_builddir}/freetype-%{version}/docs/GPLv2.TXT %{buildroot}/usr/share/package-licenses/freetype/dac7127c82749e3107b53530289e1cd548860868 || :
@@ -277,15 +276,15 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
-/V3/usr/lib64/libfreetype.so.6.20.0
-/V4/usr/lib64/libfreetype.so.6.20.0
+/V3/usr/lib64/libfreetype.so.6.20.1
+/V4/usr/lib64/libfreetype.so.6.20.1
 /usr/lib64/libfreetype.so.6
-/usr/lib64/libfreetype.so.6.20.0
+/usr/lib64/libfreetype.so.6.20.1
 
 %files lib32
 %defattr(-,root,root,-)
 /usr/lib32/libfreetype.so.6
-/usr/lib32/libfreetype.so.6.20.0
+/usr/lib32/libfreetype.so.6.20.1
 
 %files license
 %defattr(0644,root,root,0755)
